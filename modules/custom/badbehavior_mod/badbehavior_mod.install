@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the badbehavior module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function badbehavior_install() {
+  // Make load sooner than bad behavior module so we can override the constant.
+  db_query("UPDATE {system} SET weight = -1 WHERE type = 'module' AND name = 'badbehavior_mod'");
+}
+

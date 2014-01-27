@@ -1,0 +1,4 @@
+<?php
+
+define('BB2_CWD', './sites/nicholas.alipaz.net/libraries');
+
