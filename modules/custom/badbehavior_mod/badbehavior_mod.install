@@ -11,5 +11,6 @@
 function badbehavior_mod_install() {
   // Make load sooner than bad behavior module so we can override the constant.
   db_query("UPDATE {system} SET weight = -1 WHERE type = 'module' AND name = 'badbehavior_mod'");
+  variable_set('badbehavior_library_path', './sites/nicholas.alipaz.net/libraries');
 }
 
