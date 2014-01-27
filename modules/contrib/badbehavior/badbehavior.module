@@ -1,6 +1,6 @@
 <?php
 
-define('BB2_CWD', './sites/all/libraries');
+define('BB2_CWD', variable_get('badbehavior_library_path', './sites/all/libraries'));
 
 /**
  * Implements hook_help().
