@@ -1,0 +1,14 @@
+; $Id$
+name = "Context Redirect"
+dependencies[] = "context"
+description = "Context reaction to redirect to a given URL if Context is set."
+package = "Context"
+core = "6.x"
+
+
+; Information added by drupal.org packaging script on 2011-04-25
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "context_redirect"
+datestamp = "1303733088"
+

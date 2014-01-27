@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the badbehavior module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function badbehavior_schema() {
+  $schema['bad_behavior_log'] = array(
+    'description' => 'Stores hit logs for the Bad Behavior module.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'ip' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'date' => array(
+        'type' => 'datetime',
+        'not null' => TRUE,
+        'default' => '0000-00-00 00:00:00',
+      ),
+      'request_method' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'request_uri' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'server_protocol' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'http_headers' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'user_agent' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'request_entity' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'key' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'ip' => array(array('ip', 15)),
+      'user_agent' => array(array('user_agent', 10)),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function badbehavior_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    if (badbehavior_load_includes()) {
+      $requirements['badbehavior'] = array(
+        'value' => BB2_VERSION,
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+    else {
+      $requirements['badbehavior'] = array(
+        'value' => t('Missing BadBehavior library'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('Required Bad Behavior files are not found. Please consult badbehavior/README.txt for details.'),
+      );
+    }
+    $requirements['badbehavior']['title'] = t('Bad Behavior');
+  }
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function badbehavior_install() {
+  drupal_install_schema('badbehavior');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function badbehavior_uninstall() {
+  drupal_uninstall_schema('badbehavior');
+  variable_del('badbehavior_mail');
+  variable_del('badbehavior_logging');
+  variable_del('badbehavior_strict');
+  variable_del('badbehavior_httpbl_key');
+}
+
+/**
+ * Rename variables.
+ */
+function badbehavior_update_6100() {
+  $mail = variable_get('badbehavior_email', variable_get('site_mail', ini_get('sendmail_from')));
+  variable_set('badbehavior_mail', $mail);
+  variable_del('badbehavior_email');
+
+  $verbose = variable_get('badbehavior_verbose_logging_enable', 0);
+  variable_set('badbehavior_logging', $verbose ? 'verbose' : 1);
+  variable_del('badbehavior_verbose_logging_enable');
+
+  $strict = variable_get('badbehavior_strict_mode_enable', 0);
+  variable_set('badbehavior_strict', $strict);
+  variable_del('badbehavior_strict_mode_enable');
+
+  return array();
+}

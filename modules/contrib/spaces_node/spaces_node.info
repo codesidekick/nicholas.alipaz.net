@@ -1,0 +1,19 @@
+; $Id: spaces_node.info,v 1.1 2010/10/18 19:20:48 randallknutson Exp $
+name = "Spaces Node"
+description = "Provides integration between Spaces and Nodes."
+package = "Spaces"
+core = "6.x"
+dependencies[] = spaces
+dependencies[] = spaces_dashboard
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = context_layouts
+
+
+
+; Information added by drupal.org packaging script on 2010-10-18
+version = "6.x-1.0-alpha1"
+core = "6.x"
+project = "spaces_node"
+datestamp = "1287430884"
+

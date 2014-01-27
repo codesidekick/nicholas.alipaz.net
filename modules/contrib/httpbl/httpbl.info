@@ -1,0 +1,12 @@
+; $Id: httpbl.info,v 1.8 2008/07/29 20:13:04 praseodym Exp $
+name = http:BL
+description = Implementation of http:BL for Drupal.
+package = "Spam control"
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-07-11
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "httpbl"
+datestamp = "1278834503"
+
