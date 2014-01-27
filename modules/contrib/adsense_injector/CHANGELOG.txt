@@ -1,0 +1,176 @@
+AdSense Content Injector
+------------------------
+Changelog:
+
+[#1383494] by mcurry: Node enable/disable and minimum word count settings 
+   non-functional.  Variable names were mangled during the 3.x modifications.
+
+[#1342142] by mcurry: Add hook_uninstall() implementation to .install file.
+   adsense_injector_uinstall() deletes all variables starting with
+   'adsense_injector'.
+   
+   Add check in hook_install() implementation so we can uninstall prior version
+   module variables (adsense_injector*).  See issue for more details.
+
+                      
+OVERVIEW
+
+This version integrates a number of features I've been working on over
+the last year or so.  It is intended to address issue #141096
+"Inject adsense into content" - (http://drupal.org/node/141096) as
+well as provide a platform for additional new features.
+
+MAJOR NEW FEATURES as of October 6, 2011:
+
+- Removed AdSense module dependency.  That's right, you don't need
+  the AdSense module to use AdSense Content Injector.  If you don't
+  have the AdSense module enabled, you won't be able to use the 
+  [adsense:xxx] tags in your templates.  You can use raw JavaScript
+  to inject Google AdSense ads.  Your choice.
+  See: Issue #1301610 "Remove AdSense module dependency"
+       http://drupal.org/node/1301610
+  
+- Now supports XPath-based insertion for inline ad insertion.
+  The default XPath expression is /html/body/p[3] which will 
+  insert the inline ad insertion template *after* the third paragraph
+  of the node body, at the root level.  This avoids insertion inside
+  nested (descendant) elements.
+  
+  At present, insertion is always done using ->appendChild() method
+  of the element returned as a result of the XPath expression.  This 
+  means that it's impossible to insert _before_ the found element. 
+  This limitation may be lifted in a future release.
+
+- "Top" and "bottom" insertion.  
+  You can now specify "TOP" and "BOTTOM" insertion templates, which 
+  will be inserted at the top or bottom of the node body, 
+  respectively.  This method uses the body's 'content' fields with 
+  weights (top = -6, and bottom = 10).  
+
+  There is no way to alter these weights via the adsense_injector
+  admin settings page, but you can set the variables 
+  'adsense_injector_front_weight' and 'adsense_injector_back_weight'
+  manually if you like.  (Note: These variable names are likely to 
+  change in the future if and when these weights are exposed via
+  the admin settings page.)
+  
+- Manual (per-node) insertion point specification:
+  Now supports manual insertion point specification (using
+  [ai:insertion:inline] tag).  The inline template will be inserted
+  at the point where this tag appears.  
+  
+- Manual blocking of injection on a per-node basis:
+  Now supports manual "no inject" (using the <!--ai:noinject--> 
+  comment or other occurance of 'ai:noinject' within first 512 characters
+  of node body.)  Note that HTML comments are filtered out by the
+  HTML filter and other filters, so you might need to use something 
+  like <br class="ai:noinject"/> or any other HTML tag allowed by
+  the node's input filter.  (Oh, it would be so nice if Drupal's core
+  HTML filter and HTML Corrector filter allowed HTML comments to 
+  pass through...)
+  See: http://drupal.org/node/222926 
+   and http://drupal.org/node/103563
+
+Installation notes and known Issues
+===================================
+
+BEFORE YOU INSTALL THIS VERSION
+
+If you've been using 6.x-2.x releases, you should disable node body 
+insertion in page views before you upgrade to this version. 
+This will allow you to update the module settings after you install 
+the new version.
+
+You will have to re-create your node insertion template. The template
+syntax has changed (%body token no longer available). 
+Copy your old insertion template into a text editor before you install
+this version, remove the %body token, and update the template as needed.
+
+The default inline insertion point is after the third top-level paragraph
+of the node (this is controlled by the inline insertion XPath pattern 
+field.)
+ 
+AdSense Injector 6.x-2.x-dev, xxxx-xx-xx (development version)
+----------------------
+
+AdSense Injector 6.x-2.7, 2009-1-2
+----------------------
+- we skip 6.x-2.6 final release as sync with that of 5.x.
+- #123972: reset system weight.
+
+AdSense Injector 6.x-2.6-rc2, 2008-12-17
+----------------------
+- simplify legacy _adsense_injector_count_words().
+- simplify legacy _adsense_injector_minwords_cfg().
+- #174705: bugfix ultra long variable name (admin setting need reset).
+- remove fancy notice if no node type selected.
+- bugfix list view based on previous code cleanup.
+- cleanup variable names (admin setting need reset).
+- default templates with new AdSense tag style.
+- remove redundancy adsense module checking.
+- adsense_injector_nodeapi() revamp for simpler programming logic.
+
+AdSense Injector 6.x-2.6-rc1, 2008-12-16
+----------------------
+- completely upgrade and port to D6.
+- version number starting with 2.6 (sync with D5).
+- tested with adsense 6.x-1.0-beta3.
+- renew hook_menu(). D6 coming with new implementation.
+- watchdog() no longer require for t().
+- hook_nodeapi() coming with new implementation for D6.
+- split admin related hook_settings() to adsense_injector.admin.inc.
+- retouch adsense_injector.info so group this module with Adsense.
+- coding style cleanup.
+- validate code with coder module.
+- add more documentation.
+- clean up license and developer information.
+- document project owner and co-maintainer.
+- remove legacy admin setting paypal banner.
+- remove legacy _dbg().
+
+AdSense Injector 5.x-2.7, 2009-1-2
+----------------------
+- sync with 6.x-2.x-dev.
+
+AdSense Injector 5.x-2.6, 2008-12-16
+----------------------
+- sync with 6.x-2.x-dev.
+
+AdSense Injector 5.x-2.5-1, 2007-4-7
+----------------------
+- minor tweaks. adding donor button in admin settings form.
+- donations support ongoing development :D
+
+AdSense Injector 5.x-2.5, 2007-3-18
+----------------------
+- new template scheme for ads insertion.
+
+AdSense Injector 5.x-2.2, 2007-3-18
+----------------------
+- fix issue http://drupal.org/node/121034
+
+AdSense Injector 5.x-2.1, 2007-2-11
+----------------------
+- fixes a problem in list injection: was always using ad group 1 settings.
+
+AdSense Injector 5.x-2.0, 2007-2-11
+----------------------
+- first Drupal 5 version with frontpage/taxonomy list ad insertion feature.
+
+AdSense Injector 4.7.x-2.5-1, 2007-4-7
+----------------------
+- minor tweaks. adding donor button in admin settings form.
+- donations support ongoing development :D
+
+AdSense Injector 4.7.x-2.5, 2007-3-18
+----------------------
+- new template scheme for ads insertion.
+
+AdSense Injector 4.7.x-2.1, 2007-2-11
+----------------------
+- fixes a problem in list injection: was always using ad group 1 settings.
+
+AdSense Injector 4.7.x-2.0, 2007-2-11
+----------------------
+- second Drupal 4.7 version.
+- includes ability to insert ads after teaser in frontpage/taxonomy pages.

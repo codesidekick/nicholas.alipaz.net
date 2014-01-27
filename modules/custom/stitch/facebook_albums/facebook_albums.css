@@ -1,0 +1,15 @@
+.buildmode-full .node-type-album .field-photo .field-items .field-item {
+  float: left;
+  height: 225px;
+  margin: 3px;
+  padding: 0;
+}
+
+.buildmode-teaser .node-type-album {
+  border-bottom: 0;
+  padding: 0;
+}
+
+.view-facebook-albums td {
+  vertical-align: top;
+}

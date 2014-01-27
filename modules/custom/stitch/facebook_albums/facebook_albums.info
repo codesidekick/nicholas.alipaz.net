@@ -1,0 +1,6 @@
+name = Facebook Albums
+description = Pulls in albums from facebook for use on drupal site.
+core = 6.x
+
+package = Stitch Technologies
+version = VERSION

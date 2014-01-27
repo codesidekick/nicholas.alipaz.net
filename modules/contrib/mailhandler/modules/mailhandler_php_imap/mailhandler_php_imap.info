@@ -1,0 +1,14 @@
+name = Mailhandler PHP IMAP
+description = Retrieves messages from IMAP and POP mailboxes using the PHP IMAP library.
+core = 6.x
+dependencies[] = "mailhandler"
+package = "Mailhandler"
+
+files[] = plugins/mailhandler/retrieve/MailhandlerPhpImapRetrieve.class.php
+
+; Information added by drupal.org packaging script on 2012-01-04
+version = "6.x-2.4"
+core = "6.x"
+project = "mailhandler"
+datestamp = "1325702751"
+

@@ -1,0 +1,41 @@
+<?php
+
+// This function takes a url: http://www.example.com/projects/image1235.jpg
+// From that url it downloads the image and stores it in your 'files' directory in the folder 'remote_images'.
+// It then makes the image available to you via a local path (eg: sites/default/files/remote_images/projects-image1235.jpg in this case).
+// You can always reference the 'url' and it will return the local image if it is already stored, or it will get the image and return the local path.
+// This function will return the local path of the image, or "" if there was an error getting the image.
+// For usage with imagecache, use the following, replacing 'present_name' with the imagecache present you want to use.
+//   theme('imagecache', 'present_name', get_remote_image_from_url("http://www.example.com/projects/image1235.jpg"));
+function remote_image_from_url($url) {
+  $return = "";
+  $base_path = file_directory_path() . "/remote_images";
+  if (!file_exists($base_path)) {
+    mkdir($base_path, 0777);
+  }
+
+  // The next three lines are up to you.  Basically, change the input path to what you want the image file name to be.
+  $cut_url = str_ireplace("http://", "", $url);
+  $cut_url = preg_replace("/^[^\/]*\//", "", $cut_url);
+  $image_name = str_ireplace("/", "-", $cut_url);
+  $image_path = $base_path . "/" . $image_name;
+
+  if (file_exists($image_path)) { // just return it...
+    $return = $image_path;
+  }
+  else { // add it to the file system
+    $remote_image = file_get_contents($url); // get the remote image.
+    $local_image = fopen($image_path, 'w+'); // open a file to write the remote image.
+    if ($remote_image == FALSE || $local_image == FALSE) { // simple error checking.
+      $return = "";
+    }
+    else {
+      fputs($local_image, $remote_image); // write the image into the open file.
+      fclose($local_image); // close the file.
+      unset($remote_image); // remove the file reference to the remote image.
+
+      $return = $image_path;
+    }
+  }
+  return $return;
+}

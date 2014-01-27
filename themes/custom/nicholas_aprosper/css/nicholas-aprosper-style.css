@@ -1,0 +1,18 @@
+.node-type-blog .colorbox-insert-image.right{float:right;margin:4px 0 4px 12px;}
+#view-id-blog-page_1 .view-content > div > .blog-image-teaser{float:right;margin:0 0 0 12px;}
+#view-id-blog-page_1 .view-content .nd-sidebar-right .nd-region-middle{padding-right:4px;}
+#dsq-content ul li{list-style-image:none;}
+a.colorbox-load.left,a.colorbox-insert-image.left{margin:4px 12px 4px 0;}
+a.colorbox-load.right,a.colorbox-insert-image.right{margin: 4px 0 4px 12px;}
+h4.comments-header{clear:both;margin:36px 0 12px;}
+.field-facebook-like{float:left;margin-bottom:4px;padding-left:12px;}
+.buildmode-full .node-type-blog.full-node .field-post-date{float:left;}
+div.comments{background-color:#333;}
+div.comments > *{display:block;margin:0 auto;width:680px;}
+div.comments > script{display:none;}
+div.grid-images{float:left;text-align:center;}
+div.grid-images.grid-3{width:33%;}
+div.full-node div.field-terms{border-top:1px dashed;clear:both;padding:3px 0 0;}
+div.adsense.adsense_managed{float:left;width:100%;margin:4px 0;}
+div.teaser .field-title h3{margin:0;}
+div.teaser .submitted .field-label, div.teaser .submitted .field-label-inline, div.teaser .submitted .field-label-inline-first{font-weight:normal;}

@@ -1,0 +1,18 @@
+; Mailhandler ignores
+
+; update_sql cannot be used because it breaks serialized data
+mailhandler.install:386:sql
+
+; Drupal theme function: http://drupal.org/node/898200
+mailhandler.module:41:coder_tough_love
+mailhandler.module:44:coder_tough_love
+mailhandler.install:87:coder_tough_love
+plugins/ctools/export_ui/mailhandler_mailbox_ui.class.php:22:coder_tough_love
+plugins/ctools/export_ui/mailhandler_mailbox_ui.class.php:96:coder_tough_love
+plugins/ctools/export_ui/mailhandler_mailbox_ui.class.php:184:coder_tough_love
+plugins/ctools/export_ui/mailhandler_mailbox_ui.class.php:187:coder_tough_love
+modules/mailhandler_php_imap/plugins/mailhandler/retrieve/MailhandlerPhpImapRetrieve.class.php:30:coder_tough_love
+
+; Sentence case: http://drupal.org/node/337393
+mailhandler.install:346:coder_tough_love
+modules/mailhandler_php_imap/plugins/mailhandler/retrieve/MailhandlerPhpImapRetrieve.class.php:308:coder_tough_love

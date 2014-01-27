@@ -1,0 +1,39 @@
+<?php
+
+module_load_include('inc', 'facebook_albums', 'includes/facebook_albums.theme');
+module_load_include('inc', 'facebook_albums', 'includes/facebook_albums.oauth');
+
+/**
+ * Implements hook_menu().
+ */
+function facebook_albums_menu() {
+  $path = drupal_get_path('module', 'facebook_albums') . '/includes';
+  $items = array();
+  $items['user/%user/facebook-albums'] = array(
+    'title' => t('Facebook Albums'),
+    'page callback' => 'facebook_albums_user_form',
+    'page arguments' => array(1),
+    'access callback' => 'user_edit_access',
+    'access arguments' => array(1),
+    'file' => 'includes/facebook_albums.user.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['facebook-albums/import/%'] = array(
+    'title' => t('Facebook Albums Import'),
+    'page callback' => 'facebook_albums_import_page',
+    'page arguments' => array(2),
+    'access arguments' => array('administer users'), // @todo: fix this to be correct.
+    'file' => 'includes/facebook_albums.page.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements template_preprocess_node().
+ */
+function facebook_albums_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  if ($node->type === 'album') {
+    drupal_add_css(drupal_get_path('module', 'facebook_albums') . '/facebook_albums.css');
+  }
+}

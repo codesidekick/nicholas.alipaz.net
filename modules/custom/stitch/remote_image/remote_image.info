@@ -1,0 +1,8 @@
+name = Remote Image
+description = Pulls remote images onto your local disc so imagecache can use them.
+core = 6.x
+
+package = Stitch Technologies
+version = VERSION
+core = "6.x"
+project = "get_remote_image"

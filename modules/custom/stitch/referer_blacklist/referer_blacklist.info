@@ -1,0 +1,6 @@
+name = Referer Blacklist
+description = Blacklist IP addresses based on search queries they used to find this site.
+core = 6.x
+
+package = Stitch Technologies
+version = VERSION

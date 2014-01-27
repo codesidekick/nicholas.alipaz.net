@@ -1,0 +1,67 @@
+<?php
+
+function referer_blacklist_get_search_phrase($referer) {
+  $search_phrase = '';
+  $engines = array(
+    'dmoz' => 'q=',
+    'aol' => 'q=',
+    'ask' => 'q=',
+    'google' => 'q=',
+    'bing' => 'q=',
+    'hotbot' => 'q=',
+    'teoma' => 'q=',
+    'yahoo' => 'p=',
+    'altavista' => 'p=',
+    'lycos' => 'query=',
+    'kanoodle' => 'query=',
+  );
+
+  foreach($engines as $engine => $query_param) {
+    // Check if the referer is a search engine from our list.
+    // Also check if the query parameter is valid.
+    if (strpos($referer, $engine . '.') !==  false && strpos($referer, $query_param) !==  false) {
+
+      // Grab the keyword from the referer url
+      $referer .= '&';
+      $pattern = "/[?&]{$query_param}(.*?)&/si";
+      preg_match($pattern, $referer, $matches);
+      $search_phrase = urldecode($matches[1]);
+      return array(
+        'engine' => $engine, 
+        'search_phrase' => $search_phrase,
+      );
+    }
+  }
+  return;
+}
+
+function referer_blacklist_phrases() {
+  return array(
+    'baby boy penis',
+    'naked',
+    'little boy',
+    'baby boys penis',
+    'nude',
+    'showing penis',
+    'showing the penis',
+    'cute baby boy penis',
+  );
+}
+
+function referer_blacklist_preprocess_page(&$vars) {
+  global $base_url;
+  if (strpos($_SERVER['HTTP_REFERER'], $base_url) === FALSE) {
+    $search_data = referer_blacklist_get_search_phrase($_SERVER['HTTP_REFERER']);
+    dpm($search_data);
+    dpm($_SERVER['HTTP_REFERER']);
+    $bad_phrases = referer_blacklist_phrases();
+    foreach ($bad_phrases as $phrase) {
+      if (strpos($search_data['search_phrase'], $phrase) !== FALSE) {
+        drupal_set_message('What you were searching for is indescent and against the law.  Your IP address and all other data that could be ascertained from your computer/browser has been logged and you will be reported to the appropriate authorities.  You have also been banned from this site.', 'error');
+        db_query("INSERT INTO {access} (mask, type, status) VALUES ('%s', '%s', %d)", $_SERVER['REMOTE_ADDR'], 'host', 0);
+        break;
+      }
+    }
+  }
+}
+

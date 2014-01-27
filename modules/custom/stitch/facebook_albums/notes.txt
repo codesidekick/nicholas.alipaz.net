@@ -1,0 +1,43 @@
+https://graph.facebook.com/nicholasalipaz/albums
+
+// Batch requests
+http://facebook.stackoverflow.com/questions/7528250/facebook-batch-post-requests-using-php
+
+foreach through the json data.
+foreach ($data['data'] as $album) {
+	$album['id'] // is the album id
+	// to access photos for the album call
+	https://graph.facebook.com/$album['id']/photos
+	foreach ($album_photos['data'] as $image) {
+		$large = $image['images'][0];
+	}
+}
+
+/**
+ * JSON Parsing wrapper for non PHP-5 servers.
+ */
+function drupal_parse_json($v) {
+  // PHP 5 only
+  if (function_exists('json_decode')) {
+    return json_decode($v);
+  }
+  if ($v{0} == '"') {
+    $v = substr($v, 1, -1);
+  }
+  elseif ($v{0} == '{') {
+    $var = explode(",", substr($v, 1, -2));
+    $v = array();
+    foreach ($var as $value) {
+      $va = explode(":", $value);
+      $v[$va[0]] = drupal_parse_json($va[1]);
+    }
+  }
+  elseif ($v{0} == '[') {
+    $var = explode(",", substr($v, 1, -2));
+    $v = array();
+    foreach ($var as $value) {
+      $v[] = drupal_parse_json($va[0]);
+    }
+  }
+  return $v;
+}
